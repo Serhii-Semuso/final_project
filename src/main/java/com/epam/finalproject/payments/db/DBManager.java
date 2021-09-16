@@ -39,7 +39,21 @@ public class DBManager {
             try {
                 con.rollback();
             } catch (SQLException e) {
-                e.printStackTrace(); // <-- log
+                e.printStackTrace();
+                //TODO log
+                //TODO throw own ex
+            }
+        }
+    }
+
+    public static void commit(Connection con) {
+        if (con != null) {
+            try {
+                con.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // TODO log
+                //TODO throw
             }
         }
     }
@@ -50,8 +64,20 @@ public class DBManager {
                 ac.close();
             } catch (Exception e) {
                 e.printStackTrace();
+                // TODO log
+                //TODO throw
             }
         }
+    }
+
+    public static void commitAndClose(Connection con) {
+        commit(con);
+        close(con);
+    }
+
+    public static void rollbackAndClose(Connection con) {
+        rollback(con);
+        close(con);
     }
 
 }

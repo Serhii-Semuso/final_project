@@ -7,22 +7,13 @@ public class Account extends Entity {
 
     private static final long serialVersionUID = -411147444219445774L;
 
-    private Integer number;
     private String name;
     private BigDecimal balance;
     private Date creationDate;
-    private Long creditCardId;
     private Long userId;
-    private boolean isBlocked;
+    private boolean blocked;
     private boolean unblockRequest;
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+    private BigDecimal creditLimit;
 
     public String getName() {
         return name;
@@ -48,20 +39,20 @@ public class Account extends Entity {
         this.creationDate = creationDate;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
+    public boolean getBlocked() {
+        return blocked;
     }
 
     public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
+        this.blocked = blocked;
     }
 
-    public Long getCreditCardId() {
-        return creditCardId;
+    public BigDecimal getCreditLimit() {
+        return creditLimit;
     }
 
-    public void setCreditCardId(Long creditCardId) {
-        this.creditCardId = creditCardId;
+    public void setCreditLimit(BigDecimal creditLimit) {
+        this.creditLimit = creditLimit;
     }
 
     public Long getUserId() {
@@ -72,7 +63,7 @@ public class Account extends Entity {
         this.userId = userId;
     }
 
-    public boolean isUnblockRequest() {
+    public boolean getUnblockRequest() {
         return unblockRequest;
     }
 
@@ -83,14 +74,13 @@ public class Account extends Entity {
     @Override
     public String toString() {
         return "Account{" +
-                "number=" + number +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", balance=" + balance +
                 ", creationDate=" + creationDate +
-                ", isBlocked=" + isBlocked +
-                ", creditCardId=" + creditCardId +
                 ", userId=" + userId +
+                ", blocked=" + blocked +
                 ", unblockRequest=" + unblockRequest +
+                ", creditLimit=" + creditLimit +
                 '}';
     }
 }

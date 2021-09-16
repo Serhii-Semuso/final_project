@@ -8,11 +8,11 @@ public class Payment extends Entity {
     private static final long serialVersionUID = 8406958724579749596L;
 
     private BigDecimal amount;
-    private Integer destinationAccountNumber;
     private String description;
     private Date creationDate;
     private Date sentDate;
-    private Long accountId;
+    private Long accountIdFrom;
+    private Long accountIdTo;
     private Long paymentStatusId;
 
     public BigDecimal getAmount() {
@@ -23,12 +23,12 @@ public class Payment extends Entity {
         this.amount = amount;
     }
 
-    public Integer getDestinationAccountNumber() {
-        return destinationAccountNumber;
+    public Long getAccountIdTo() {
+        return accountIdTo;
     }
 
-    public void setDestinationAccountNumber(Integer destinationAccountNumber) {
-        this.destinationAccountNumber = destinationAccountNumber;
+    public void setAccountIdTo(Long accountIdTo) {
+        this.accountIdTo = accountIdTo;
     }
 
     public String getDescription() {
@@ -55,12 +55,12 @@ public class Payment extends Entity {
         this.sentDate = sentDate;
     }
 
-    public Long getAccountId() {
-        return accountId;
+    public Long getAccountIdFrom() {
+        return accountIdFrom;
     }
 
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
+    public void setAccountIdFrom(Long accountIdFrom) {
+        this.accountIdFrom = accountIdFrom;
     }
 
     public Long getPaymentStatusId() {
@@ -75,11 +75,11 @@ public class Payment extends Entity {
     public String toString() {
         return "Payment{" +
                 "amount=" + amount +
-                ", destinationAccountNumber=" + destinationAccountNumber +
                 ", description='" + description + '\'' +
                 ", creationDate=" + creationDate +
                 ", sentDate=" + sentDate +
-                ", accountId=" + accountId +
+                ", accountIdFrom=" + accountIdFrom +
+                ", accountIdTo=" + accountIdTo +
                 ", paymentStatusId=" + paymentStatusId +
                 '}';
     }

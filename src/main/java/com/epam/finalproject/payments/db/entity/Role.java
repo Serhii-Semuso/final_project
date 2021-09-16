@@ -1,6 +1,7 @@
 package com.epam.finalproject.payments.db.entity;
 
 public enum Role {
+
     ADMIN, CLIENT;
 
     public static Role getRole(User user) {
