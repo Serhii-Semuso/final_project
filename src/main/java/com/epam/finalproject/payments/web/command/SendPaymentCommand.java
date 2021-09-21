@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
-public class OpenAccountCommand implements Command {
+public class SendPaymentCommand implements Command {
 
-   private static final Logger log = Logger.getLogger(OpenAccountCommand.class);
+   private static final Logger log = Logger.getLogger(SendPaymentCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

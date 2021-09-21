@@ -22,15 +22,16 @@ public class CommandContainer {
         commands.put("openAccount", new OpenAccountCommand());
         commands.put("viewAccounts", new ViewAccountsCommand());
         commands.put("blockAccount", new BlockAccountCommand());
+        commands.put("unblockRequest", new UnblockAccountRequestCommand());
         commands.put("viewReplenishBalance", new ViewReplenishBalanceCommand());
         commands.put("replenishBalance", new ReplenishBalanceCommand());
-
-
 
         commands.put("userMain", new UserMainCommand());
 
         commands.put("viewCreatePayment", new ViewCreatePaymentCommand());
+        commands.put("createPayment", new CreatePaymentCommand());
         commands.put("viewPayments", new ViewPaymentsCommand());
+        commands.put("sendPayment", new SendPaymentCommand());
 
         commands.put("noCommand", new NoCommand());
     }

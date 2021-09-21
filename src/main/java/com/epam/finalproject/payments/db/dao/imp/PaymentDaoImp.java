@@ -49,6 +49,7 @@ public class PaymentDaoImp implements PaymentDao {
             }
         } catch (SQLException e) {
             //TODO log
+            e.printStackTrace();
             DBManager.rollbackAndClose(con);
         } finally {
             DBManager.close(statement);
@@ -187,6 +188,7 @@ public class PaymentDaoImp implements PaymentDao {
         try {
             con = DBManager.getInstance().getConnection();
             statement = con.prepareStatement(SQL_FIND_ALL_PAYMENTS_BY_USER_ID);
+            statement.setLong(1, id);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 payments.add(new PaymentMapper().mapRow(resultSet));

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ViewCreatePaymentCommand implements Command {
 
@@ -17,17 +18,29 @@ public class ViewCreatePaymentCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        log.debug("Command starts");
         String address;
         HttpSession session = request.getSession();
 
         User user = (User) session.getAttribute("user");
-        if(user == null){
+        if (user == null) {
             address = Path.PAGE_LOGIN;
-        }else {
-            Collection<Account> accounts = new AccountDaoImp().findByUserId(user.getId());
-            request.setAttribute("accounts", accounts);
-            address = Path.PAGE_LIST_ACCOUNTS;
+        } else {
+            Collection<Account> userAccounts = new AccountDaoImp().findByUserId(user.getId());
+            userAccounts = userAccounts.stream()
+                    .filter(x -> !x.getBlocked())
+                    .collect(Collectors.toList());
+            request.setAttribute("userAccounts", userAccounts);
+
+            Collection<Account> allAccounts = new AccountDaoImp().findAll();
+            allAccounts = allAccounts.stream()
+                    .filter(x -> !x.getBlocked())
+                    .collect(Collectors.toList());
+            request.setAttribute("allAccounts", allAccounts);
+
+            address = Path.PAGE_CREATE_PAYMENT;
         }
+        log.debug("Command finished");
         return address;
     }
 

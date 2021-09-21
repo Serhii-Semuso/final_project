@@ -1,8 +1,8 @@
 package com.epam.finalproject.payments.web.command;
 
 import com.epam.finalproject.payments.Path;
-import com.epam.finalproject.payments.db.dao.imp.AccountDaoImp;
-import com.epam.finalproject.payments.db.entity.Account;
+import com.epam.finalproject.payments.db.dao.imp.PaymentDaoImp;
+import com.epam.finalproject.payments.db.entity.Payment;
 import com.epam.finalproject.payments.db.entity.User;
 import org.apache.log4j.Logger;
 
@@ -17,6 +17,7 @@ public class ViewPaymentsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        log.debug("Command starts");
         String address;
         HttpSession session = request.getSession();
 
@@ -24,10 +25,12 @@ public class ViewPaymentsCommand implements Command {
         if(user == null){
             address = Path.PAGE_LOGIN;
         }else {
-            Collection<Account> accounts = new AccountDaoImp().findByUserId(user.getId());
-            request.setAttribute("accounts", accounts);
-            address = Path.PAGE_LIST_ACCOUNTS;
+            Collection<Payment> payments = new PaymentDaoImp().findByUserId(user.getId());
+            request.setAttribute("payments", payments);
+            log.debug("Found payments: " + payments);
+            address = Path.PAGE_LIST_PAYMENTS;
         }
+        log.debug("Command finished");
         return address;
     }
 

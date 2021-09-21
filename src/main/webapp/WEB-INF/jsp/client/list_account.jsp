@@ -74,7 +74,7 @@
                             </c:when>
 
                             <c:otherwise>
-                                No actions...
+                                You sent unblock request...
                             </c:otherwise>
 
                         </c:choose>

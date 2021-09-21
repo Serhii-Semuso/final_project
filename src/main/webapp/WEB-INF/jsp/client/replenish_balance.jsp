@@ -3,7 +3,7 @@
 
 <html>
 
-<c:set var="title" value="Open account"/>
+<c:set var="title" value="Replenish balance"/>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body class="d-flex flex-column min-vh-100">
