@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `paymentsdb`.`role` ;
 
 CREATE TABLE IF NOT EXISTS `paymentsdb`.`role` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(20) NOT NULL DEFAULT 'client',
+  `name` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -63,13 +63,13 @@ DROP TABLE IF EXISTS `paymentsdb`.`account` ;
 
 CREATE TABLE IF NOT EXISTS `paymentsdb`.`account` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `number` VARCHAR(30) NOT NULL,
+  `number` VARCHAR(30) NOT NULL DEFAULT '',
   `name` VARCHAR(255) NOT NULL,
   `balance` DECIMAL(13,2) NOT NULL DEFAULT 0,
-  `creation_date` DATETIME NOT NULL,
+  `creation_date` DATETIME NOT NULL DEFAULT NOW(),
   `is_blocked` TINYINT(1) NOT NULL DEFAULT 0,
   `user_id` INT NOT NULL,
-  `unblock_request` TINYINT(1) NULL,
+  `unblock_request` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_account_user1_idx` (`user_id` ASC) VISIBLE,
   UNIQUE INDEX `number_UNIQUE` (`number` ASC) VISIBLE,
@@ -99,10 +99,10 @@ DROP TABLE IF EXISTS `paymentsdb`.`payment` ;
 
 CREATE TABLE IF NOT EXISTS `paymentsdb`.`payment` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `number` VARCHAR(30) NOT NULL,
+  `number` VARCHAR(30) NOT NULL DEFAULT '',
   `amount` DECIMAL(13,2) NOT NULL,
   `description` VARCHAR(255) NULL,
-  `creation_date` DATETIME NOT NULL,
+  `creation_date` DATETIME NOT NULL DEFAULT NOW(),
   `sent_date` DATETIME NULL,
   `account_id_from` INT NOT NULL,
   `account_id_to` INT NOT NULL,
@@ -177,7 +177,7 @@ DROP TABLE IF EXISTS `paymentsdb`.`credit_card` ;
 
 CREATE TABLE IF NOT EXISTS `paymentsdb`.`credit_card` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `number` VARCHAR(30) NOT NULL,
+  `number` VARCHAR(30) NOT NULL DEFAULT '0000',
   `limit` DECIMAL(13,2) NOT NULL DEFAULT 0.0,
   `account_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -310,8 +310,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `paymentsdb`;
-INSERT INTO `paymentsdb`.`role` (`id`, `name`) VALUES (1, 'admin');
-INSERT INTO `paymentsdb`.`role` (`id`, `name`) VALUES (2, 'client');
+INSERT INTO `paymentsdb`.`role` (`id`, `name`) VALUES (2, 'admin');
+INSERT INTO `paymentsdb`.`role` (`id`, `name`) VALUES (1, 'client');
 
 COMMIT;
 
@@ -321,7 +321,31 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `paymentsdb`;
-INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (1, 'test', 'test', 2, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (1, 'test', 'test', 1, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (2, 'test1', 'test1', 1, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (3, 'test2', 'test2', 1, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (4, 'test3', 'test3', 1, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (5, 'test4', 'test4', 1, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (6, 'test5', 'test5', 1, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (7, 'test6', 'test6', 1, 'Test', 'Tets', 'test@test', '12334', 0, 'en');
+INSERT INTO `paymentsdb`.`user` (`id`, `login`, `password`, `role_id`, `first_name`, `last_name`, `email`, `phone_number`, `is_blocked`, `locale_name`) VALUES (8, 'admin', 'admin', 2, 'admin', 'admin', 'admin@admin', '12334', 0, 'en');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `paymentsdb`.`account`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `paymentsdb`;
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (1, DEFAULT, 'account1', , DEFAULT, DEFAULT, 1, NULL);
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (2, DEFAULT, 'account2', , DEFAULT, DEFAULT, 2, NULL);
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (3, DEFAULT, 'account3', , DEFAULT, DEFAULT, 3, NULL);
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (4, DEFAULT, 'account12', , DEFAULT, DEFAULT, 1, NULL);
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (5, DEFAULT, 'account13', , DEFAULT, DEFAULT, 1, NULL);
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (6, DEFAULT, 'account4', , DEFAULT, DEFAULT, 4, NULL);
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (7, DEFAULT, 'account5', , DEFAULT, DEFAULT, 5, NULL);
+INSERT INTO `paymentsdb`.`account` (`id`, `number`, `name`, `balance`, `creation_date`, `is_blocked`, `user_id`, `unblock_request`) VALUES (8, DEFAULT, 'account6', , DEFAULT, DEFAULT, 6, NULL);
 
 COMMIT;
 
@@ -333,6 +357,24 @@ START TRANSACTION;
 USE `paymentsdb`;
 INSERT INTO `paymentsdb`.`payment_status` (`id`) VALUES (1);
 INSERT INTO `paymentsdb`.`payment_status` (`id`) VALUES (2);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `paymentsdb`.`payment`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `paymentsdb`;
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (1, DEFAULT, 100, NULL, DEFAULT, NULL, 1, 2, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (2, DEFAULT, 100, NULL, DEFAULT, NULL, 3, 4, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (3, DEFAULT, 100, NULL, DEFAULT, NULL, 5, 6, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (4, DEFAULT, 100, NULL, DEFAULT, NULL, 7, 8, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (5, DEFAULT, 100, NULL, DEFAULT, NULL, 8, 1, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (6, DEFAULT, 100, NULL, DEFAULT, NULL, 1, 2, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (7, DEFAULT, 100, NULL, DEFAULT, NULL, 3, 4, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (8, DEFAULT, 100, NULL, DEFAULT, NULL, 5, 6, 1);
+INSERT INTO `paymentsdb`.`payment` (`id`, `number`, `amount`, `description`, `creation_date`, `sent_date`, `account_id_from`, `account_id_to`, `payment_status_id`) VALUES (9, DEFAULT, 100, NULL, DEFAULT, NULL, 7, 8, 1);
 
 COMMIT;
 
@@ -357,6 +399,23 @@ INSERT INTO `paymentsdb`.`status_has_language` (`payment_status_id`, `language_i
 INSERT INTO `paymentsdb`.`status_has_language` (`payment_status_id`, `language_id`, `name`) VALUES (2, 1, 'відправлений');
 INSERT INTO `paymentsdb`.`status_has_language` (`payment_status_id`, `language_id`, `name`) VALUES (1, 2, 'prepared');
 INSERT INTO `paymentsdb`.`status_has_language` (`payment_status_id`, `language_id`, `name`) VALUES (2, 2, 'sent');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `paymentsdb`.`credit_card`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `paymentsdb`;
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (1, DEFAULT, 1000, 1);
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (2, DEFAULT, 1000, 2);
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (3, DEFAULT, 1000, 3);
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (4, DEFAULT, 1000, 4);
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (5, DEFAULT, 1000, 5);
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (6, DEFAULT, 1000, 6);
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (7, DEFAULT, 1000, 7);
+INSERT INTO `paymentsdb`.`credit_card` (`id`, `number`, `limit`, `account_id`) VALUES (8, DEFAULT, 1000, 8);
 
 COMMIT;
 

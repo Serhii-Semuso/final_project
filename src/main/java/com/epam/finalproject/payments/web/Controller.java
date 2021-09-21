@@ -16,15 +16,24 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(request, response);
+        String address = process(request, response);
+        log.trace("Controller finished, now go to forward address --> " + address);
+        if (address != null) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+            dispatcher.forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(request, response);
+        String address = process(request, response);
+        log.trace("Controller finished, now go to redirect address --> " + address);
+        if (address != null) {
+           response.sendRedirect(address);
+        }
     }
 
-    private void process(HttpServletRequest request,
+    private String process(HttpServletRequest request,
                          HttpServletResponse response) throws IOException, ServletException {
 
         log.trace("Controller starts");
@@ -37,17 +46,11 @@ public class Controller extends HttpServlet {
         Command command = CommandContainer.get(commandName);
         log.info("Obtained command --> " + command);
 
-        // execute command and get forward address
-        String forward = command.execute(request, response);
-        log.trace("Forward address --> " + forward);
+        // execute command and get address
+        String address = command.execute(request, response);
+        log.trace("Forward address --> " + address);
 
-        log.trace("Controller finished, now go to forward address --> " + forward);
-
-        // if the forward address is not null go to the address
-        if (forward != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
-            dispatcher.forward(request, response);
-        }
+        return address;
     }
 
 }

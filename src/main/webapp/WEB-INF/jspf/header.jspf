@@ -2,78 +2,63 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
-<div class="container"
-        <c:if test="${not empty user}">
-            <%--===========================================================================
-            This is the user menu.
-            ===========================================================================--%>
+<header>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <c:if test="${not empty user}">
+                <ul class="navbar-nav">
 
-            <div id="leftHeader">
+                    <li class="nav-item">
+                        <a class="nav-link" href="controller?command=userMain">Home</a>
+                    </li>
 
-                <c:choose>
+                    <c:choose>
 
-                    <%--===========================================================================
-                    This way we define the ADMIN MENU.
-                    ===========================================================================--%>
-                    <c:when test="${userRole.name == 'admin' }">
-                        <a href="controller?command=listOrders">
-                            <fmt:message key="header_jspf.anchor.all_orders"/>
-                        </a> &nbsp;
-                    </c:when>
+                        <c:when test="${userRole.name == 'admin' }">
+                            <li class="nav-item">
+                                <a class="nav-link" href="controller?command=viewUsers">Users</a>
+                            </li>
+                        </c:when>
 
+                        <c:when test="${userRole.name == 'client' }">
+                            <li class="nav-item">
+                                <a class="nav-link" href="controller?command=viewAccounts">Accounts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="controller?command=viewPayments">Payments</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="controller?command=viewOpenAccount">Open account</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="controller?command=viewCreatePayment">Create payment</a>
+                            </li>
+                        </c:when>
 
-                    <%--===========================================================================
-                    This way we define the USER MENU.
-                    ===========================================================================--%>
-                    <c:when test="${userRole.name == 'client'}">
-                        <a href="controller?command=listMenu">
-                            <fmt:message key="header_jspf.anchor.menu"/>
-                        </a> &nbsp;
-                    </c:when>
-                </c:choose>
+                    </c:choose>
+                </ul>
 
-                    <%--===========================================================================
-                    This way we define the settings anchor.
-                    ===========================================================================--%>
-                <a href="controller?command=viewSettings">
-                    <fmt:message key="header_jspf.anchor.settings"/>
-                </a> &nbsp;
+                <div class="row align-content-center">
+                    <span class="navbar-text">
+                        <c:out value="${user.firstName} ${user.lastName}"/>
 
-            </div>
+                        <c:if test="${not empty userRole}">
+                            <c:out value=" (${userRole.name})"/>
+                        </c:if>
+                    </span>
+                    <div class="col">
+                        <a class="btn btn-primary" role="button" href="controller?command=logout">Log out</a>
+                    </div>
+                </div>
 
-            <%--===========================================================================
-            This way we define the menu located at the right of header.
-            ===========================================================================--%>
-            <div id="rightHeader" >
+            </c:if>
 
-                    <%--===========================================================================
-                    Type user name if the user object is presented in the current session.
-                    ===========================================================================--%>
-                <c:out value="${user.firstName} ${user.lastName}"/>
+            <c:if test="${empty user and title ne 'Login' and title ne 'Signup'}">
+                <div class="container-fluid d-flex align-items-end">
+                    <a class="btn btn-primary" role="button" href="login.jsp">Log in</a>
+                </div>
+            </c:if>
+        </div>
+    </nav>
 
-                    <%--===========================================================================
-                    Type user role name if the user object is presented in the current session.
-                    ===========================================================================--%>
-                <c:if test="${not empty userRole}">
-                    <c:out value="(${userRole.name})"/>
-                </c:if>
-
-                    <%--===========================================================================
-                    Type link to logout
-                    ===========================================================================--%>
-                <a href="controller?command=logout">
-                    <fmt:message key="header_jspf.anchor.logout"/>
-                </a>
-
-            </div>
-        </c:if>
-
-        <c:if test="${empty user and title ne 'Log in'}">
-            <div id="rightHeader">
-                <a href="login.jsp">
-                    <fmt:message key="header_jspf.anchor.login"/>
-                </a>
-            </div>
-        </c:if>
-
-</div>
+</header>

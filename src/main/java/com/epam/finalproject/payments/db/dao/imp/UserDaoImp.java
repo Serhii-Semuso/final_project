@@ -50,7 +50,7 @@ public class UserDaoImp implements UserDao {
             }
         } catch (SQLException e) {
             //TODO log
-            DBManager.rollbackAndClose(con);
+           DBManager.rollbackAndClose(con);
         } finally {
             DBManager.close(statement);
             DBManager.commitAndClose(con);

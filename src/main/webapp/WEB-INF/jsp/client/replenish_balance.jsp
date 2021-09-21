@@ -3,33 +3,32 @@
 
 <html>
 
-<c:set var="title" value="Login"/>
+<c:set var="title" value="Open account"/>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body class="d-flex flex-column min-vh-100">
 
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
-<div class="container" style="height: 85%;">
+<div class="container" style="height: 80%;">
     <div class="row h-100 justify-content-center align-items-center">
         <div class="col-10 col-md-8 col-lg-6">
+            <div class="mx-auto text-center">
+                <h2>Replenish selected account:</h2>
+            </div>
             <form action="controller" method="post" class="needs-validation" novalidate>
-                <input type="hidden" name="command" value="login">
-                <div class="form-group">
-                    <label for="log">Login:</label>
-                    <input type="text" class="form-control" id="log" placeholder="Enter login" name="login" required>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                </div>
-                <div class="form-group">
-                    <label for="pwd">Password:</label>
-                    <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
-                    <div class="invalid-feedback">Please fill out this field.</div>
+                <input type="hidden" name="command" value="replenishBalance">
+                <input type="hidden" name="accountId" value="<%=request.getParameter("accountId")%>">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="amount">Amount:</label>
+                        <input type="text" class="form-control" id="amount" placeholder="Enter amount" name="amount"
+                               required>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
                 </div>
                 <div class="mx-auto text-center">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                    <br/>
-                    <p class="text-muted">or</p>
-                    <a href="controller?command=viewRegister" class="btn btn-secondary btn-sm" role="button">Sing up</a>
+                    <button type="submit" class="btn btn-primary">Replenish account</button>
                 </div>
             </form>
         </div>
@@ -55,5 +54,6 @@
         }, false);
     })();
 </script>
+
 </body>
 </html>

@@ -8,12 +8,20 @@ public class Account extends Entity {
     private static final long serialVersionUID = -411147444219445774L;
 
     private String name;
+    private String number;
     private BigDecimal balance;
     private Date creationDate;
     private Long userId;
     private boolean blocked;
     private boolean unblockRequest;
-    private BigDecimal creditLimit;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public String getName() {
         return name;
@@ -47,14 +55,6 @@ public class Account extends Entity {
         this.blocked = blocked;
     }
 
-    public BigDecimal getCreditLimit() {
-        return creditLimit;
-    }
-
-    public void setCreditLimit(BigDecimal creditLimit) {
-        this.creditLimit = creditLimit;
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -75,12 +75,12 @@ public class Account extends Entity {
     public String toString() {
         return "Account{" +
                 "name='" + name + '\'' +
+                ", number='" + number + '\'' +
                 ", balance=" + balance +
                 ", creationDate=" + creationDate +
                 ", userId=" + userId +
                 ", blocked=" + blocked +
                 ", unblockRequest=" + unblockRequest +
-                ", creditLimit=" + creditLimit +
-                '}';
+                "} " + super.toString();
     }
 }

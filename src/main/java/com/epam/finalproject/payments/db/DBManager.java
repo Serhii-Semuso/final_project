@@ -35,27 +35,27 @@ public class DBManager {
 
 
     public static void rollback(Connection con) {
-        if (con != null) {
-            try {
-                con.rollback();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                //TODO log
-                //TODO throw own ex
-            }
-        }
+//        if (con != null) {
+//            try {
+//               // con.rollback();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                //TODO log
+//                //TODO throw own ex
+//            }
+//        }
     }
 
     public static void commit(Connection con) {
-        if (con != null) {
-            try {
-                con.commit();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                // TODO log
-                //TODO throw
-            }
-        }
+//        if (con != null) {
+//            try {
+//             //   con.commit();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                // TODO log
+//                //TODO throw
+//            }
+//        }
     }
 
     public static void close(AutoCloseable ac) {

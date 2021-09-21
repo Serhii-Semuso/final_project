@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterCommand implements Command {
 
-    private static final Logger log = Logger.getLogger(NoCommand.class);
+    private static final Logger log = Logger.getLogger(RegisterCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

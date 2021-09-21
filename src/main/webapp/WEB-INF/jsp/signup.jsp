@@ -3,12 +3,14 @@
 
 <html>
 
-<c:set var="title" value="Sign up"/>
+<c:set var="title" value="Signup"/>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <body class="d-flex flex-column min-vh-100">
 
-<div class="container" style="height: 90%;">
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
+
+<div class="container" style="height: 85%;">
     <div class="row h-100 justify-content-center align-items-center">
         <div class="col-10 col-md-8 col-lg-6">
             <form action="controller" method="post" class="needs-validation" novalidate>

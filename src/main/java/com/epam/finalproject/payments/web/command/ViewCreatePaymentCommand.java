@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 
-public class ViewAccountsCommand implements Command {
+public class ViewCreatePaymentCommand implements Command {
 
-    private static final Logger log = Logger.getLogger(ViewAccountsCommand.class);
+    private static final Logger log = Logger.getLogger(ViewCreatePaymentCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        log.debug("Command starts");
         String address;
         HttpSession session = request.getSession();
 
@@ -26,11 +25,9 @@ public class ViewAccountsCommand implements Command {
             address = Path.PAGE_LOGIN;
         }else {
             Collection<Account> accounts = new AccountDaoImp().findByUserId(user.getId());
-            log.debug("Found accounts: " + accounts);
             request.setAttribute("accounts", accounts);
             address = Path.PAGE_LIST_ACCOUNTS;
         }
-        log.debug("Command finished");
         return address;
     }
 

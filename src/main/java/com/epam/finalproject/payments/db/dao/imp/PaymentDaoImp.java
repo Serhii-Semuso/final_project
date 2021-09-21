@@ -13,21 +13,21 @@ import java.util.List;
 public class PaymentDaoImp implements PaymentDao {
 
     private static final String SQL_FIND_PAYMENT_BY_ID = "SELECT * FROM payment WHERE id=?";
-    private static final String SQL_FIND_ALL_PAYMENTS = "SELECT * FROM payment ORDER BY id";
+    private static final String SQL_FIND_ALL_PAYMENTS = "SELECT * FROM payment";
     private static final String SQL_DELETE_PAYMENT = "DELETE FROM payment WHERE id=?";
     private static final String SQL_FIND_ALL_PAYMENTS_BY_ACCOUNT_ID = "SELECT * FROM payment WHERE account_id_from=?";
 
     private static final String SQL_FIND_ALL_PAYMENTS_BY_USER_ID = "SELECT * FROM payment " +
             "WHERE account_id_from " +
-            "IN (SELECT id FROM account WHERE user_id=?)";
+            "IN (SELECT id FROM `account` WHERE user_id=?)";
 
     private static final String SQL_INSERT_PAYMENT =
-            "INSERT INTO payment(amount, description, creation_date, sent_date, account_id_from, account_id_to, payment_status_id)" +
-                    " VALUES(?,?,?,?,?,?,?)";
+            "INSERT INTO payment(amount, number, description,  account_id_from, account_id_to, payment_status_id)" +
+                    " VALUES(?,?,?,?,?,?)";
 
     private static final String SQL_UPDATE_PAYMENT =
             "UPDATE payment " +
-                    "SET amount=?, description=?, creation_date=?, sent_date=?, account_id_from=?, account_id_to=?, payment_status_id=? " +
+                    "SET amount=?, description=?, sent_date=?, account_id_from=?, account_id_to=?, payment_status_id=? " +
                     "WHERE id=?";
 
     @Override
@@ -39,9 +39,8 @@ public class PaymentDaoImp implements PaymentDao {
             statement = con.prepareStatement(SQL_INSERT_PAYMENT);
             int k = 0;
             statement.setBigDecimal(++k, payment.getAmount());
+            statement.setString(++k, payment.getNumber());
             statement.setString(++k, payment.getDescription());
-            statement.setDate(++k, (Date) payment.getCreationDate());
-            statement.setDate(++k, (Date) payment.getSentDate());
             statement.setLong(++k, payment.getAccountIdFrom());
             statement.setLong(++k, payment.getAccountIdTo());
             statement.setLong(++k, payment.getPaymentStatusId());
@@ -93,7 +92,6 @@ public class PaymentDaoImp implements PaymentDao {
             int k = 0;
             statement.setBigDecimal(++k, payment.getAmount());
             statement.setString(++k, payment.getDescription());
-            statement.setDate(++k, (Date) payment.getCreationDate());
             statement.setDate(++k, (Date) payment.getSentDate());
             statement.setLong(++k, payment.getAccountIdFrom());
             statement.setLong(++k, payment.getAccountIdTo());
@@ -211,6 +209,7 @@ public class PaymentDaoImp implements PaymentDao {
             Payment payment = new Payment();
             try {
                 payment.setId(resultSet.getLong(Fields.ENTITY_ID));
+                payment.setNumber(resultSet.getString(Fields.PAYMENT_NUMBER));
                 payment.setAmount(resultSet.getBigDecimal(Fields.PAYMENT_AMOUNT));
                 payment.setDescription(resultSet.getString(Fields.PAYMENT_DESCRIPTION));
                 payment.setCreationDate(resultSet.getDate(Fields.PAYMENT_CREATION_DATE));

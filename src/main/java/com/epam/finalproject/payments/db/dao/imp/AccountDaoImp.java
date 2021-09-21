@@ -13,41 +13,41 @@ import java.util.List;
 public class AccountDaoImp implements AccountDao {
 
     private static final String SQL_FIND_ACCOUNT_BY_ID = "SELECT * FROM account WHERE id=?";
-    private static final String SQL_FIND_ALL_ACCOUNTS = "SELECT * FROM account ORDER BY id";
+    private static final String SQL_FIND_ALL_ACCOUNTS = "SELECT * FROM account";
     private static final String SQL_FIND_ALL_ACCOUNTS_BY_USER_ID = "SELECT * FROM account WHERE user_id=?";
     private static final String SQL_DELETE_ACCOUNT = "DELETE FROM account WHERE id=?";
 
     private static final String SQL_INSERT_ACCOUNT =
-            "INSERT INTO account(name, balance, creation_date, user_id, is_blocked, unblock_request, credit_limit)" +
-                    " VALUES(?,?,?,?,?,?,?)";
+            "INSERT INTO account(`name`, `number`, user_id) VALUES(?,?, ?)";
 
     private static final String SQL_UPDATE_ACCOUNT =
-            "UPDATE account " +
-                    "SET number=?, name=?, balance=?, creation_date=?, credit_card_id=?, user_id=?, is_blocked=?, unblock_request=?) " +
-                    "WHERE id=?";
+            "UPDATE account SET `name`=?, `balance`=?, is_blocked=?, unblock_request=? WHERE id=?";
 
     @Override
     public boolean insert(Account account) {
         Connection con = null;
         PreparedStatement statement = null;
+        ResultSet rs = null;
         try {
             con = DBManager.getInstance().getConnection();
-            statement = con.prepareStatement(SQL_INSERT_ACCOUNT);
+            statement = con.prepareStatement(SQL_INSERT_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
             int k = 0;
             statement.setString(++k, account.getName());
-            statement.setBigDecimal(++k, account.getBalance());
-            statement.setDate(++k, (Date) account.getCreationDate());
+            statement.setString(++k, account.getNumber());
             statement.setLong(++k, account.getUserId());
-            statement.setBoolean(++k, account.getBlocked());
-            statement.setBoolean(++k, account.getUnblockRequest());
-            statement.setBigDecimal(++k, account.getCreditLimit());
+
             if (statement.executeUpdate() != 0) {
+                rs = statement.getGeneratedKeys();
+                if (rs.next()) {
+                    account.setId(rs.getLong(1));
+                }
                 return true;
             }
         } catch (SQLException e) {
             //TODO log
             DBManager.rollbackAndClose(con);
         } finally {
+            DBManager.close(rs);
             DBManager.close(statement);
             DBManager.commitAndClose(con);
         }
@@ -85,15 +85,12 @@ public class AccountDaoImp implements AccountDao {
         PreparedStatement statement = null;
         try {
             con = DBManager.getInstance().getConnection();
-            statement = con.prepareStatement(SQL_INSERT_ACCOUNT);
+            statement = con.prepareStatement(SQL_UPDATE_ACCOUNT);
             int k = 0;
             statement.setString(++k, account.getName());
             statement.setBigDecimal(++k, account.getBalance());
-            statement.setDate(++k, (Date) account.getCreationDate());
-            statement.setLong(++k, account.getUserId());
             statement.setBoolean(++k, account.getBlocked());
             statement.setBoolean(++k, account.getUnblockRequest());
-            statement.setBigDecimal(++k, account.getCreditLimit());
             statement.setLong(++k, account.getId());
             if (statement.executeUpdate() != 0) {
                 return true;
@@ -184,14 +181,14 @@ public class AccountDaoImp implements AccountDao {
         public Account mapRow(ResultSet resultSet) {
             Account account = new Account();
             try {
-                account.setUserId(resultSet.getLong(Fields.ENTITY_ID));
+                account.setId(resultSet.getLong(Fields.ENTITY_ID));
                 account.setName(resultSet.getString(Fields.ACCOUNT_NAME));
+                account.setNumber(resultSet.getString(Fields.ACCOUNT_NUMBER));
                 account.setBalance(resultSet.getBigDecimal(Fields.ACCOUNT_BALANCE));
                 account.setCreationDate(resultSet.getDate(Fields.ACCOUNT_CREATION_DATE));
                 account.setUserId(resultSet.getLong(Fields.ACCOUNT_USER_ID));
                 account.setBlocked(resultSet.getBoolean(Fields.ACCOUNT_IS_BLOCKED));
                 account.setUnblockRequest(resultSet.getBoolean(Fields.ACCOUNT_UNBLOCK_REQUEST));
-                account.setCreditLimit(resultSet.getBigDecimal(Fields.ACCOUNT_CREDIT_LIMIT));
                 return account;
             } catch (SQLException e) {
                 e.printStackTrace();

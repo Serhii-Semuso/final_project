@@ -16,4 +16,8 @@ public abstract class Entity implements Serializable {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "{ id=" + id +'}';
+    }
 }

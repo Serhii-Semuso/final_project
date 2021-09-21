@@ -26,13 +26,13 @@ public class LoginCommand implements Command {
 
         // error handler
         String errorMessage;
-        String forward = Path.PAGE_ERROR;
+        String address = Path.PAGE_ERROR;
 
         if (login == null || password == null || login.isEmpty() || password.isEmpty()) {
             errorMessage = "Login/password cannot be empty";
             request.setAttribute("errorMessage", errorMessage);
             log.error("errorMessage --> " + errorMessage);
-            return forward;
+            return address;
         }
 
         User user = new UserDaoImp().findByLogin(login);
@@ -42,25 +42,20 @@ public class LoginCommand implements Command {
             errorMessage = "Cannot find user with such login/password";
             request.setAttribute("errorMessage", errorMessage);
             log.error("errorMessage --> " + errorMessage);
-            return forward;
+            return address;
         } else {
             Role userRole = Role.getRole(user);
             log.trace("userRole --> " + userRole);
-
-            if (userRole == Role.CLIENT)
-                forward = Path.PAGE_CLIENT_ACCOUNT;
-
+            address = Path.COMMAND_USER_MAIN;
             session.setAttribute("user", user);
             log.trace("Set the session attribute: user --> " + user);
             session.setAttribute("userRole", userRole);
             log.trace("Set the session attribute: userRole --> " + userRole);
-
             log.info("User " + user + " logged as " + userRole.toString().toLowerCase());
-
         }
 
         log.debug("Command finished");
 
-        return forward;
+        return address;
     }
 }

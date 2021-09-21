@@ -8,21 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ViewRegisterCommand implements Command {
 
-    private static final Logger log = Logger.getLogger(ViewRegisterCommand.class);
+public class ViewOpenAccountCommand implements Command {
+
+    private static final Logger log = Logger.getLogger(ViewOpenAccountCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         log.debug("Command starts");
-        String address = Path.PAGE_REGISTRATION;
+        String address = Path.PAGE_LOGIN;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if(user != null){
-            address = Path.COMMAND_USER_MAIN;
+            address = Path.PAGE_OPEN_ACCOUNT;
         }
         log.debug("Command finished");
         return address;
     }
-
 }

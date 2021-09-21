@@ -8,12 +8,21 @@ public class Payment extends Entity {
     private static final long serialVersionUID = 8406958724579749596L;
 
     private BigDecimal amount;
+    private String number;
     private String description;
     private Date creationDate;
     private Date sentDate;
     private Long accountIdFrom;
     private Long accountIdTo;
     private Long paymentStatusId;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -75,6 +84,7 @@ public class Payment extends Entity {
     public String toString() {
         return "Payment{" +
                 "amount=" + amount +
+                ", number='" + number + '\'' +
                 ", description='" + description + '\'' +
                 ", creationDate=" + creationDate +
                 ", sentDate=" + sentDate +
